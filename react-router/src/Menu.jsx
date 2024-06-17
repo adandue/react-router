@@ -6,7 +6,7 @@ const Menu = () => {
         <nav>
             <ul>
                 {routes.map(route => (
-                    <li key={route.text}>
+                    <li key={route.to}>
                         <NavLink
                         style={({ isActive }) => ({
                         color: isActive ? 'red' : 'blue'
