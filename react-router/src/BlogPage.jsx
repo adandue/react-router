@@ -1,12 +1,15 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 import { blogdata } from "./blogdata"
 
 
 const BlogPage = () => {
     return (
         <>
-        <h1>Blog Page</h1>
+        <h1>Blog</h1>
+
+        <Outlet />
+
         <ul>
             {blogdata.map(post => (
                 <BlogLink post={post} key={post.slug} />
