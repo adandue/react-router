@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from './auth';
 import { useData } from './blogdata';
-import { EditPost } from './EditPost';
+// import { EditPost } from './EditPost';
 
 function BlogPost() {
     const navigate = useNavigate();
