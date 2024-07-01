@@ -15,7 +15,7 @@ blogdata.push({
     title: '¿Qué es Angular?',
     slug: 'que-es-angular',
     content: 'Angular es el mejor framework de javascript.',
-    author: 'lina',
+    author: 'luna',
 })
 
 export { blogdata }

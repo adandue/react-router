@@ -11,7 +11,7 @@ const BlogPost = () => {
 
     const blogpost = blogdata.find(post => post.slug === slug)
 
-    const canDelete = auth.user?.isAdmin || blogpost.author === auth.user?.username
+    const canDelete = auth.user?.isAdmin || blogpost.author === auth.user?.isAuthor
 
     const returnToBlog = () => {
         navigate('/blog')
