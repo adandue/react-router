@@ -1,30 +1,35 @@
-import React from "react"
-import { Link, Outlet } from "react-router-dom"
-import { blogdata } from "./blogdata"
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import { useData } from "./blogdata";
+import { CreatePost } from "./CreatePost";
 
+function BlogPage() {
+    const [createPost, setCreatePost ] = React.useState(false);
 
-const BlogPage = () => {
-    return (
-        <>
-        <h1>Blog</h1>
+    const blogdata = useData();
+    return(
+        <React.Fragment>
+            <h2>BlogPage</h2>
+            <ul>
+                {console.log(blogdata)}
+                {blogdata.data.map(post => (<BlogLink  key={post.slug} post={post}/>))}
+            </ul>
+            <Outlet />
+            {!createPost && <button onClick={()=> setCreatePost(true)}>Nuevo Post</button>}
+            {createPost && <CreatePost setCreatePost={setCreatePost} />}  
+        </React.Fragment>
+    );
+};
 
-        <Outlet />
-
-        <ul>
-            {blogdata.map(post => (
-                <BlogLink post={post} key={post.slug} />
-            ))}
-        </ul>
-        </>
-    )
-}
-
-const BlogLink = ({ post }) => {
-    return (
+function BlogLink({post}) {
+    return(
         <li>
-            <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+            <Link 
+            to={/blog/`${post.slug}`}>
+                {post.title}
+            </Link>
         </li>
-    )
+    );
 }
 
-export { BlogPage }
+export { BlogPage };
