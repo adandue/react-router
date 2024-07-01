@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 
 const adminList = ['adan_due', 'vero', 'aurora', 'yuki']
-const authorList = ['adan_due', 'yuki', 'luna']
 
 const AuthContext = React.createContext()
 
@@ -12,10 +11,11 @@ function AuthProvider({ children }){
     const [user, setUser] = React.useState(null)
 
     const login = ({ username }) => {
-        const isAdmin = adminList.find(admin => admin === username)
-        const isAuthor = authorList.find(author => author === username)
-        setUser({ username, isAdmin, isAuthor })
-        navigate('/profile')
+        const isAdmin = adminList.find(admin => admin.username === username && admin.role === 'admin');
+        const isEditor = adminList.find(admin => admin.username === username && admin.role === 'editor');
+        const isReviewer = adminList.find(admin => admin.username === username && admin.role === 'reviewer');
+        setUser({username, isAdmin, isEditor, isReviewer});
+        navigate('/profile');
     }
 
     const logout = () => {
