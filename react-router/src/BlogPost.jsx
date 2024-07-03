@@ -1,51 +1,37 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from './auth';
-import { useData } from './blogdata';
-// import { EditPost } from './EditPost';
+import React from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { blogdata } from "./blogdata"
+import { useAuth } from "./auth"
 
-function BlogPost() {
-    const navigate = useNavigate();
-    const { slug } = useParams();
-    const blogdata = useData();
-    const auth = useAuth();
-
-
-    const [editPost, setEditPost ] = React.useState(false);
-
-    const blogpost = blogdata.data.find(post => post.slug === slug);
-
-    const canDelete = auth.user?.isAdmin || blogpost.author === auth.user?.username;
-    const canEdit = auth.user?.isEditor || blogpost.author === auth.user?.username;
-    const canCheck = auth.user?.isReviewer;
+const BlogPost = () => {
+    const navigate = useNavigate()
+    const { slug } = useParams()
+    const auth = useAuth()
+    const blogpost = blogdata.find(post => post.slug === slug)
+    const canDelete = auth.user?.isAdmin || blogpost.author === auth.user?.isAuthor
+    const { user, data, deletePost } = useAuth()
 
     const returnToBlog = () => {
-    navigate('/blog');
-    };
+        navigate('/blog')
+    }
 
+    const deletedPost = () => {
+        deletePost(slug)
+        navigate('/blog')
+    }
 
     return (
-    <>
-        <h3>{blogpost.title}</h3>
-        <button onClick={returnToBlog}>Volver al blog</button>
+        <>
+        <h2>{blogpost.title}</h2>
+        <button onClick={returnToBlog}>Volver al Blog</button>
         <p>{blogpost.author}</p>
         <p>{blogpost.content}</p>
 
         {canDelete && (
-        <button onClick={ () => blogdata.deleteData(blogpost.title)}>Eliminar blogpost</button>
+            <button onClick={deletedPost}>Eliminar blogpost</button>
         )}
-        {canEdit && (
-        <button onClick={() => setEditPost(true)}>Editar blogpost</button>
-        )}
-        {editPost && <EditPost setEditPost={setEditPost} oldTitle={blogpost.title} oldContent={blogpost.content} oldAuthor={blogpost.author} oldApproved={blogpost.approved}/>} 
-        {canCheck && (
-        <button onClick={() => blogdata.changeStatus(blogpost.title)}>Cambiar estado de aprobacion</button>
-        )}
-        {blogpost.approved && (<><br/><span>Revisado y aprobado</span><br/></>)}
-        {!blogpost.approved && (<><br/><span>Aun no aprobado</span><br/></>)}
-        {console.log(blogpost.approved)}
-    </>
-    );
+        </>
+    )
 }
 
-export { BlogPost };
+export { BlogPost }
