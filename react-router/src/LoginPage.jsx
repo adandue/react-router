@@ -1,11 +1,13 @@
 import React from "react"
 import { useAuth } from "./auth"
-import { Navigate } from "react-router-dom"
+import { Navigate, useLocation, useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
     const auth = useAuth()
-
     const [username, setUsername] = React.useState('')
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from || '/'
 
     const login = e => {
         e.preventDefault()
@@ -13,7 +15,7 @@ const LoginPage = () => {
     }
 
     if(auth.user) {
-        return <Navigate to='/profile'/>
+        navigate(from, { replace: true})
     }
     
     return (

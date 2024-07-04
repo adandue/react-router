@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { blogdata } from "./blogdata";
 
 
@@ -12,12 +12,14 @@ function AuthProvider({ children }){
     const navigate = useNavigate()
     const [user, setUser] = React.useState(null)
     const [data, setData] = React.useState(blogdata)
+    const location = useLocation()
+    const from = location.state?.from || '/'
 
     const login = ({ username }) => {
         const isAdmin = adminList.find(admin => admin === username)
         const isAuthor = authorList.find(author => author === username)
         setUser({ username, isAdmin, isAuthor })
-        navigate('/profile')
+        navigate(from, { replace: true})
     }
 
     const logout = () => {
@@ -50,7 +52,7 @@ function AuthRoute(props) {
     const auth = useAuth()
 
     if(!auth.user) {
-        return <Navigate to='/login' />
+        return <Navigate to='/login' state={{ from: location }} replace />
     }
     return props.children
 }
