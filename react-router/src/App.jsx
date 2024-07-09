@@ -5,11 +5,11 @@ import { BlogPage } from './pages/BlogPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { BlogPost } from './components/BlogPost';
 import { CreateBlog } from './components/CreateBlog';
-import { LoginPage } from './pages/LoginPage';
+import { LoginPage } from './pages/LoginPage'
 import { LogoutPage } from './pages/LogoutPage';
-import { AuthProvider, AuthRoute } from 'services/auth';
-import { BlogProvider, BlogRoute } from 'services/blog';
-import { UsersDBProvider } from 'services/usersDB';
+import { AuthProvider, AuthRoute } from './services/auth';
+import { BlogProvider, BlogRoute } from './services/blog';
+import { UsersDBProvider } from './services/usersDB';
 
 function App() {
   return (
