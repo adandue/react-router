@@ -1,25 +1,25 @@
-import React from "react"
-import { useAuth } from "./auth"
+import React from 'react';
+import { useAuth } from 'services/auth';
 
-const LogoutPage = () => {
-    const auth = useAuth()
+function LogoutPage() {
+    const auth = useAuth();
 
-    const logout = e => {
-        e.preventDefault()
-        auth.logout()
-    }
+    const logout = (e) => {
+    e.preventDefault();
+    auth.logout();
+    };
 
     return (
-        <>
-            <h1>Logout</h1>
+    <>
+        <h1>LogoutPage</h1>
 
-            <form onSubmit={logout}>
-                <label>¿Seguro que quieres salir?</label>
+        <form onSubmit={logout}>
+        <label>¿Seguro que quires salir?</label>
 
-                <button type="submit">Salir</button>
-            </form>
-        </>
-    )
+        <button type="submit">Salir</button>
+        </form>
+    </>
+    );
 }
 
-export { LogoutPage }
+export { LogoutPage };

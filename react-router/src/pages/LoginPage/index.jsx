@@ -1,38 +1,48 @@
-import React from "react"
-import { useAuth } from "./services/auth"
-import { Navigate, useLocation, useNavigate } from "react-router-dom"
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from 'services/auth';
+import { useUsersDB } from 'services/usersDB';
 
-const LoginPage = () => {
-    const auth = useAuth()
-    const [username, setUsername] = React.useState('')
-    const navigate = useNavigate()
-    const location = useLocation()
-    const from = location.state?.from || '/'
+function LoginPage() {
+    const auth = useAuth();
+    const usersDB = useUsersDB();
+    const location = useLocation();
+    const [username, setUsername] = React.useState('');
+    const [error, setError] = React.useState(false);
 
-    const login = e => {
-        e.preventDefault()
-        auth.login({ username })
+    const login = (e) => {
+    e.preventDefault();
+
+    const user = usersDB.findUser(username);
+
+    if (user) {
+        auth.login(user);
+    } else {
+        setError(true);
+    }
+    };
+
+    if (auth.user) {
+    const path = location.state?.from?.pathname || '/profile';
+    return <Navigate to={path} replace />;
     }
 
-    if(auth.user) {
-        navigate(from, { replace: true})
-    }
-    
     return (
-        <>
-            <h1>Login</h1>
+    <>
+        <h1>LoginPage</h1>
 
-            <form onSubmit={login}>
-                <label>Escribe tu nombre de usuario:</label>
-                <input 
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                />
+        <form onSubmit={login}>
+        <label>Escribe tu nombre de usuario:</label>
+        <input value={username} onChange={(e) => setUsername(e.target.value)} />
 
-                <button type="submit">Entrar</button>
-            </form>
-        </>
-    )
+        <button type="submit">Entrar</button>
+        </form>
+
+        {error && (
+        <p style={{ color: 'red', marginTop: '4px' }}>User doesn't exist!</p>
+        )}
+    </>
+    );
 }
 
-export { LoginPage }
+export { LoginPage };

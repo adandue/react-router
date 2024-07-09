@@ -1,31 +1,51 @@
-import { Link, Outlet } from "react-router-dom"
-import { useAuth } from './services/auth'
+import React from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from 'services/auth';
+import { useBlog } from 'services/blog';
 
-
-const BlogPage = () => {
-    const { data } = useAuth()
+function BlogPage() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { blogs } = useBlog();
+    const { isLogged } = useAuth();
 
     return (
-        <>
-        <h1>Blog</h1>
+    <>
+        <h1>BlogPage</h1>
 
-        <Outlet />
+        {isLogged ? (
+        <button onClick={() => navigate('/blog/create')}>Add blog</button>
+        ) : (
+        <button
+            onClick={() =>
+            navigate('/login', { replace: true, state: { from: location } })
+            }
+        >
+            Login to add a new blog
+        </button>
+        )}
 
+        {blogs.length > 0 ? (
         <ul>
-            {data.map(post => (
-                <BlogLink post={post} key={post.slug} />
+            {blogs.map((post) => (
+            <BlogLink key={post.slug} {...{ post }} />
             ))}
         </ul>
-        </>
-    )
+        ) : (
+        <p>Not blogs</p>
+        )}
+
+        <Outlet />
+    </>
+    );
 }
 
-const BlogLink = ({ post }) => {
+function BlogLink({ post }) {
     return (
-        <li>
-            <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-        </li>
-    )
+    <li>
+        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+    </li>
+    );
 }
 
-export { BlogPage }
+export { BlogPage };
