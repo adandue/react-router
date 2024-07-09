@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom"
-import { useAuth } from './auth'
+import { useAuth } from './services/auth'
 
 
 const BlogPage = () => {
